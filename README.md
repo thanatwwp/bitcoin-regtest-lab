@@ -194,3 +194,7 @@ Run `node --test "test/*.test.mjs"` for the RPC boundary, network guards, amount
 Both apps live in this repository. Keep personal configuration, credentials, wallets, chain data, screenshots, logs and generated archives out of uploads. The checked-in `.env.example` contains empty credential fields, and the WSL launchers discover the Linux home directory automatically. Test credentials and sample-chain data are synthetic.
 
 See [the source-sharing guide](docs/SHARING.md) for the included files, exclusions and review procedure. GitHub stores the source; these local backends are started on your computer, not hosted by GitHub Pages.
+
+## License
+
+Licensed under the [MIT License](LICENSE).

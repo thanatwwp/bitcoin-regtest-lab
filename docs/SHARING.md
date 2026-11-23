@@ -8,7 +8,7 @@ The repository contains both **Regtest Observatory** (dashboard) and **Chain Atl
 - `src/` and `server.mjs`: the local backend and fixed RPC clients.
 - `test/` and `qa/`: automated tests and clearly synthetic fixtures. The optional Core integration test creates its own isolated test data only when run.
 - `Start-Dashboard.ps1`, `Start-Explorer.ps1`, `scripts/install-wsl-runtime.ps1` and `package.json`.
-- `.gitignore`, the empty-credential `.env.example`, `README.md`, `SECURITY.md`, and the guides in `docs/`.
+- `.gitignore`, the empty-credential `.env.example`, `README.md`, `LICENSE`, `SECURITY.md`, and the guides in `docs/`.
 
 ## Exclude
 
