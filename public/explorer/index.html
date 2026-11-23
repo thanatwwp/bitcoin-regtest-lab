@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080d17">
+  <meta name="description" content="Chain Atlas — a personal, read-only Bitcoin Regtest explorer. Follow blocks, transactions and addresses on your own node.">
+  <title>Chain Atlas · Your Bitcoin explorer</title>
+  <link rel="icon" href="/explorer/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/explorer/explorer.css">
+  <link rel="stylesheet" href="/explorer/cybertown.css">
+  <script type="module" src="/explorer/explorer.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to explorer</a>
+  <aside class="sidebar">
+    <a class="brand" href="#/" aria-label="Chain Atlas home"><img src="/explorer/mark.svg" width="39" height="39" alt=""><span>chain<span class="brand-second">atlas<span class="brand-period">.</span></span></span></a>
+    <p class="nav-label">YOUR NETWORK</p>
+    <nav aria-label="Explorer navigation">
+      <a href="#/" data-nav="overview"><span aria-hidden="true">◈</span> Overview</a>
+      <a href="#/blocks" data-nav="blocks"><span aria-hidden="true">▤</span> Blocks</a>
+      <a href="#/mempool" data-nav="mempool"><span aria-hidden="true">⇄</span> Mempool</a>
+      <a href="#/learn" data-nav="learn"><span aria-hidden="true">◎</span> Field guide</a>
+    </nav>
+    <div class="sidebar-note"><span class="little-cross" aria-hidden="true">⌁</span><p>Your window into<br>the Bitcoin network.</p></div>
+    <div class="sidebar-bottom"><span class="lock-mark" aria-hidden="true">◇</span><strong>Look. Learn. Explore.</strong><p>A read-only view of your chain.</p><a href="http://127.0.0.1:3000/#block-builder">Build a block in your lab ↗</a><a href="http://127.0.0.1:3000/">Open your lab dashboard ↗</a></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="location"><span class="pulse" id="connection-dot"></span><span id="connection-label">Connecting to your node</span></div>
+      <div class="toolbar">
+        <span class="view-mode">Read-only explorer</span>
+        <label class="visually-hidden" for="data-source">Data source</label>
+        <select id="data-source"><option value="local">Local Regtest</option><option value="sample">Sample chain</option></select>
+        <button id="unit-button" class="unit-button" type="button" aria-label="Switch amounts to satoshis">BTC <span>⇄</span></button>
+        <button id="refresh" class="icon-button" type="button" aria-label="Refresh explorer">↻</button>
+      </div>
+    </header>
+    <div class="sample-banner" id="sample-banner" hidden><span><strong>Sample chain</strong> · Illustrative data. No connection to your Bitcoin node.</span><button type="button" id="back-to-local">Use my node ↗</button></div>
+    <main id="content" tabindex="-1">
+      <div class="search-area">
+        <form id="search-form" role="search"><label class="visually-hidden" for="search">Search Bitcoin Regtest</label><span class="search-icon" aria-hidden="true">⌕</span><input id="search" name="q" type="search" autocomplete="off" spellcheck="false" maxlength="100" placeholder="Search a block, transaction, or address…" required><kbd aria-hidden="true">/</kbd><button type="submit" id="search-button">Explore <span aria-hidden="true">↗</span></button></form>
+        <p class="search-error" id="search-error" role="alert" hidden></p>
+      </div>
+      <div id="view" aria-busy="true"><div class="loading"><span class="spinner"></span> Opening your explorer…</div></div>
+    </main>
+    <footer class="page-footer"><span>Your node. Your view. <span aria-hidden="true">↗</span></span><a href="http://127.0.0.1:3000/#block-builder">Build a block in your lab ↗</a></footer>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

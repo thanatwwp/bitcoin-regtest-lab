@@ -1,0 +1,17 @@
+{
+  "name": "bitcoin-regtest-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local interactive Bitcoin Regtest lab for Core, electrs, and Sparrow Wallet.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "explorer": "node server.mjs --explorer",
+    "test": "node --test \"test/*.test.mjs\"",
+    "check": "node --check server.mjs && node --check public/app.js && node --check public/actions.js && node --check public/explorer/explorer.js && node --test \"test/*.test.mjs\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

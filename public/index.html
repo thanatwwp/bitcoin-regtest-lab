@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0a0d12">
+    <meta name="description" content="Your local Bitcoin Regtest lab: monitor Core and electrs, generate blocks, and test wallet transactions.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/polish.css">
+    <title>Regtest Observatory</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Regtest Observatory home">
+        <span class="brand-mark" aria-hidden="true">₿</span>
+        <span>
+          <strong>Regtest</strong>
+          <small>Observatory</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="workspace-link" href="/explorer/">Explore the chain ↗</a>
+        <button class="live-toggle" id="pause-button" type="button" aria-pressed="false">Pause updates</button>
+        <span class="privacy-pill"><span class="privacy-dot"></span><span id="mode-label">Local · Regtest</span></span>
+        <button class="button button-primary" id="refresh-button" type="button" aria-label="Refresh dashboard">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8.1 8.1 0 0 0-15.5-2M4 4v5h5m-5 4a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5"/></svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Bitcoin / your local laboratory</p>
+          <h1>Your Regtest stack,<br><em>in plain sight.</em></h1>
+          <p class="hero-description">Your node, wallets, and network in one place. Follow the activity. Take the next step when you’re ready.</p>
+          <div class="hero-links"><a class="button button-primary" href="#lab-actions">Open lab controls <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="/explorer/">Explore blocks <span aria-hidden="true">→</span></a></div>
+          <div class="service-strip" aria-label="Service status">
+            <div class="service-item">
+              <span class="status-dot is-loading" id="core-status-dot"></span>
+              <span><small>Bitcoin Core</small><strong id="core-status-label">Checking…</strong></span>
+            </div>
+            <div class="service-divider"></div>
+            <div class="service-item">
+              <span class="status-dot is-loading" id="electrs-status-dot"></span>
+              <span><small>electrs</small><strong id="electrs-status-label">Checking…</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="tip-visual" aria-label="Current chain tip">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="tip-card">
+            <span class="tip-label">Current chain tip</span>
+            <strong id="hero-block-height">—</strong>
+            <span class="tip-unit">blocks</span>
+            <div class="tip-hash">
+              <span>Best hash</span>
+              <code id="hero-best-hash">Waiting for Core…</code>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="dashboard-shell">
+        <nav class="section-nav" aria-label="Dashboard sections"><a href="#overview">Overview</a><a href="#lab-actions">Lab controls</a><a href="#wallets">Wallets</a><a href="#connections">Connections</a></nav>
+        <p class="connection-banner is-hidden" id="connection-banner" role="status">Connection lost. Showing the last successful update.</p>
+        <div class="section-heading" id="overview">
+          <div>
+            <p class="section-kicker">Live overview</p>
+            <h2>Network at a glance</h2>
+          </div>
+          <p class="updated-at" id="updated-at">First check in progress…</p>
+        </div>
+
+        <section class="metric-grid" aria-label="Network overview">
+          <article class="metric-card accent-orange">
+            <div class="metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Zm0 4.5 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg>
+            </div>
+            <span class="metric-label">Block height</span>
+            <strong class="metric-value" id="metric-blocks">—</strong>
+            <span class="metric-detail" id="metric-blocks-detail">Validated chain</span>
+          </article>
+          <article class="metric-card accent-blue">
+            <div class="metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 18V9m5 9V5m6 13v-7m5 7V3"/></svg>
+            </div>
+            <span class="metric-label">Known headers</span>
+            <strong class="metric-value" id="metric-headers">—</strong>
+            <span class="metric-detail" id="metric-headers-detail">Chain announcements</span>
+          </article>
+          <article class="metric-card accent-green">
+            <div class="metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg>
+            </div>
+            <span class="metric-label">Core sync</span>
+            <strong class="metric-value metric-value-text" id="metric-sync">—</strong>
+            <span class="metric-detail" id="metric-sync-detail">Initial block download</span>
+          </article>
+          <article class="metric-card accent-purple">
+            <div class="metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 4v16m14-16v16M5 8h14M5 16h14"/></svg>
+            </div>
+            <span class="metric-label">Mempool</span>
+            <strong class="metric-value" id="metric-mempool">—</strong>
+            <span class="metric-detail" id="metric-mempool-detail">Unconfirmed transactions</span>
+          </article>
+        </section>
+
+        <section class="ibd-callout is-hidden" id="ibd-callout" aria-live="polite">
+          <div class="callout-symbol" aria-hidden="true">i</div>
+          <div>
+            <p class="callout-label">What “waiting for 0 blocks to download (IBD)” means</p>
+            <h2 id="ibd-title">Core is at height 0, but its IBD flag is still on.</h2>
+            <p id="ibd-explanation"></p>
+          </div>
+          <div class="callout-fact">
+            <span>Blocks behind</span>
+            <strong id="ibd-blocks-behind">0</strong>
+          </div>
+        </section>
+
+        <section class="panel lab-controls" id="lab-actions" aria-labelledby="lab-title">
+          <div class="panel-header">
+            <div><p class="section-kicker">Make something happen</p><h2 id="lab-title">Lab controls</h2></div>
+            <span class="panel-chip">REGTEST ONLY</span>
+          </div>
+          <p class="action-notice" id="action-availability" role="status">Checking the local node…</p>
+          <div class="action-grid">
+            <form id="address-form" class="action-card">
+              <h3><span>01</span> Receive</h3>
+              <p>Create a receiving address in a loaded Core wallet.</p>
+              <fieldset id="address-fields" disabled>
+                <label for="receive-wallet">Wallet</label>
+                <select id="receive-wallet"><option value="">No loaded wallets</option></select>
+                <button class="button button-secondary" type="submit">Review new address</button>
+              </fieldset>
+              <div class="address-output is-hidden" id="address-output">
+                <span>Your new receiving address</span>
+                <code id="receiving-address"></code>
+                <div class="output-actions"><button type="button" class="copy-button" data-copy-target="receiving-address">Copy</button><button type="button" class="copy-button" id="use-mining-address">Use for mining →</button></div>
+              </div>
+            </form>
+            <form id="mine-form" class="action-card">
+              <h3><span>02</span> Generate blocks</h3>
+              <p>Confirm transactions and fund a Regtest address.</p>
+              <fieldset id="mine-fields" disabled>
+                <label for="mining-address">Reward destination</label>
+                <input id="mining-address" type="text" placeholder="Paste a Regtest address" required maxlength="100" autocomplete="off" spellcheck="false">
+                <label for="mining-count">Number of blocks</label>
+                <input id="mining-count" type="number" min="1" max="101" step="1" value="1" required>
+                <div class="block-presets" aria-label="Block count presets"><button type="button" data-blocks="1">1</button><button type="button" data-blocks="10">10</button><button type="button" data-blocks="101">101</button></div>
+                <p class="field-help">101 blocks make the first reward spendable on a fresh chain.</p>
+                <button class="button button-primary" type="submit">Review generation</button>
+              </fieldset>
+            </form>
+            <form id="send-form" class="action-card">
+              <h3><span>03</span> Send test bitcoin</h3>
+              <p>Send from Core to Sparrow or another Regtest wallet.</p>
+              <fieldset id="send-fields" disabled>
+                <label for="send-wallet">From wallet</label>
+                <select id="send-wallet"><option value="">No loaded wallets</option></select>
+                <label for="send-address">Recipient address</label>
+                <input id="send-address" type="text" placeholder="Paste the recipient’s Regtest address" required maxlength="100" autocomplete="off" spellcheck="false">
+                <div class="amount-fields"><div><label for="send-amount">Amount (BTC)</label><input id="send-amount" type="text" inputmode="decimal" placeholder="0.01" pattern="[0-9]+(\.[0-9]{1,8})?" required></div><div><label for="send-fee">Fee (sat/vB)</label><input id="send-fee" type="number" min="0.001" max="1000" step="0.001" value="1" required></div></div>
+                <p class="field-help">The sender pays the fee in addition to the amount.</p>
+                <button class="button button-secondary" type="submit">Review transaction</button>
+              </fieldset>
+            </form>
+          </div>
+          <form id="builder-form" class="action-card block-builder">
+            <div class="builder-intro" id="block-builder">
+              <div><h3><span>04</span> Build a block</h3><p>Choose how much activity your next block contains.</p></div>
+              <span class="panel-chip">YOUR WALLET → YOUR WALLET</span>
+            </div>
+            <fieldset id="builder-fields" disabled>
+              <div class="builder-fields-grid">
+                <div><label for="builder-wallet">Use wallet</label><select id="builder-wallet"><option value="">No loaded wallets</option></select></div>
+                <div><label for="builder-count">Total transactions in this block</label><input id="builder-count" type="number" min="1" step="1" value="20" required aria-describedby="builder-count-help"></div>
+                <div><label for="builder-fee">Fee rate (sat/vB)</label><input id="builder-fee" type="number" min="0.001" max="1000" step="0.001" value="1" required></div>
+              </div>
+              <div class="builder-bottom">
+                <div><div class="block-presets" aria-label="Transaction count examples"><button type="button" data-transactions="5">5 tx</button><button type="button" data-transactions="20">20 tx</button><button type="button" data-transactions="50">50 tx</button></div><p class="field-help" id="builder-count-help">20 means 19 test transfers + 1 mining reward. Type another count for the next block. Bitcoin’s block weight limit still applies.</p></div>
+                <button class="button button-primary" type="submit">Review block</button>
+              </div>
+              <p class="field-help">Needs a loaded, unlocked wallet with spendable native SegWit funds. Transfers stay in your wallet; fees reduce its balance. Existing blocks keep their original transactions.</p>
+            </fieldset>
+          </form>
+          <div class="action-result is-hidden" id="action-result" role="status" aria-live="polite"></div>
+        </section>
+
+        <div class="content-grid content-grid-primary">
+          <section class="panel panel-wide">
+            <div class="panel-header">
+              <div>
+                <p class="section-kicker">Validated locally</p>
+                <h2>Latest blocks</h2>
+              </div>
+              <span class="panel-chip" id="blocks-chain-chip">REGTEST</span>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Height</th><th>Block hash</th><th>Age</th><th>Txs</th><th>Size</th></tr></thead>
+                <tbody id="blocks-body"><tr><td colspan="5"><div class="empty-row">Waiting for Bitcoin Core…</div></td></tr></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel node-panel">
+            <div class="panel-header">
+              <div>
+                <p class="section-kicker">Bitcoin Core</p>
+                <h2>Node connection</h2>
+              </div>
+              <span class="connection-light is-loading" id="node-connection-light" aria-label="Checking"></span>
+            </div>
+            <dl class="detail-list">
+              <div><dt>RPC endpoint</dt><dd><code id="node-endpoint">127.0.0.1:18443</code></dd></div>
+              <div><dt>Network</dt><dd id="node-network">regtest</dd></div>
+              <div><dt>Core version</dt><dd id="node-version">—</dd></div>
+              <div><dt>Peers</dt><dd id="node-peers">—</dd></div>
+              <div><dt>Chain size</dt><dd id="node-size">—</dd></div>
+              <div><dt>Pruned</dt><dd id="node-pruned">—</dd></div>
+            </dl>
+            <div class="security-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.7 7 10 4.1-1.3 7-5.5 7-10V6l-7-3Zm-3 9 2 2 4-5"/></svg>
+              <span>Credentials stay in the server process. This page never receives them.</span>
+            </div>
+          </section>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="section-kicker">Waiting room</p>
+                <h2>Mempool</h2>
+              </div>
+              <span class="panel-count" id="mempool-count">Checking…</span>
+            </div>
+            <div class="mini-stats">
+              <div><span>Memory usage</span><strong id="mempool-usage">—</strong></div>
+              <div><span>Total fees</span><strong id="mempool-fees">—</strong></div>
+              <div><span>Min fee</span><strong id="mempool-minfee">—</strong></div>
+            </div>
+            <div class="activity-list" id="mempool-list">
+              <div class="empty-state"><span class="empty-icon">◇</span><strong>Checking the mempool</strong><p>Pending transactions will appear here.</p></div>
+            </div>
+          </section>
+
+          <section class="panel" id="wallets">
+            <div class="panel-header">
+              <div>
+                <p class="section-kicker">Bitcoin Core wallets</p>
+                <h2>Wallets & balances</h2>
+              </div>
+              <span class="panel-count" id="wallet-count">Checking…</span>
+            </div>
+            <div class="wallet-list" id="wallet-list">
+              <div class="empty-state"><span class="empty-icon">◫</span><strong>Checking your wallets</strong><p>Loaded wallets and their balances will appear here.</p></div>
+            </div>
+            <details class="available-wallets" id="available-wallets-wrapper">
+              <summary>Wallets available on disk <span id="available-wallet-count">—</span></summary>
+              <div id="available-wallet-list"></div>
+            </details>
+          </section>
+        </div>
+
+        <section class="panel transactions-panel">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">Across loaded wallets</p>
+              <h2>Recent wallet transactions</h2>
+            </div>
+            <span class="read-only-chip">Read-only view</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Transaction</th><th>Wallet</th><th>Type</th><th>Amount</th><th>Confirmations</th><th>Time</th></tr></thead>
+              <tbody id="transactions-body"><tr><td colspan="6"><div class="empty-row">Checking wallet activity…</div></td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="section-heading integrations-heading" id="connections">
+          <div>
+            <p class="section-kicker">The wallet path</p>
+            <h2>electrs → Sparrow</h2>
+          </div>
+          <p>One local Electrum connection, end to end.</p>
+        </div>
+
+        <section class="connection-flow" aria-label="electrs and Sparrow connection">
+          <article class="integration-card">
+            <div class="integration-top">
+              <div class="service-logo electrs-logo" aria-hidden="true"><span>e</span></div>
+              <div><p>Indexer</p><h3>electrs</h3></div>
+              <span class="status-badge is-loading" id="electrs-badge">Checking</span>
+            </div>
+            <p class="integration-description" id="electrs-description">Testing the local Electrum TCP service.</p>
+            <dl class="detail-list compact">
+              <div><dt>Endpoint</dt><dd><code id="electrs-endpoint">127.0.0.1:60401</code></dd></div>
+              <div><dt>Indexed height</dt><dd id="electrs-height">—</dd></div>
+              <div><dt>Protocol</dt><dd id="electrs-protocol">—</dd></div>
+              <div><dt>Latency</dt><dd id="electrs-latency">—</dd></div>
+            </dl>
+          </article>
+
+          <div class="flow-connector" aria-hidden="true"><span></span><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></div>
+
+          <article class="integration-card sparrow-card">
+            <div class="integration-top">
+              <div class="service-logo sparrow-logo" aria-hidden="true">
+                <svg viewBox="0 0 40 40"><path d="M8 24c6-1 8-8 10-14 2 7 5 11 14 13-6 1-9 4-12 9-1-4-5-7-12-8Z"/><path d="m17 18 5 3-4 2"/></svg>
+              </div>
+              <div><p>Desktop wallet</p><h3>Sparrow</h3></div>
+              <span class="status-badge status-neutral">Configure</span>
+            </div>
+            <p class="integration-description">Point Sparrow’s Regtest profile at your private electrs server.</p>
+            <div class="connection-address">
+              <span>Private Electrum URL</span>
+              <div><code id="sparrow-url">tcp://127.0.0.1:60401</code><button class="copy-button" type="button" data-copy-target="sparrow-url" aria-label="Copy Sparrow URL">Copy</button></div>
+            </div>
+            <ol class="setup-steps">
+              <li><span>1</span><p>Open <strong>File → Preferences → Server</strong>.</p></li>
+              <li><span>2</span><p>Choose <strong>Private Electrum</strong> and network <strong>Regtest</strong>.</p></li>
+              <li><span>3</span><p>Use the host and port above with <strong>SSL off</strong>.</p></li>
+            </ol>
+          </article>
+        </section>
+
+        <section class="error-panel is-hidden" id="error-panel" aria-live="polite">
+          <div><strong>Some local checks need attention</strong><p>The rest of the dashboard will keep refreshing.</p></div>
+          <ul id="error-list"></ul>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p><strong>Regtest Observatory</strong> · Your Bitcoin laboratory</p>
+      <p>Your node. Your pace. <a href="/explorer/">Open Chain Atlas ↗</a></p>
+    </footer>
+
+    <dialog id="action-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-note">
+      <p class="section-kicker">Review your action</p>
+      <h2 id="confirm-title"></h2>
+      <dl id="confirm-details" class="confirm-details"></dl>
+      <p id="confirm-note"></p>
+      <div class="dialog-buttons"><button type="button" id="cancel-action" class="button button-secondary">Cancel</button><button type="button" id="confirm-action" class="button button-primary">Confirm</button></div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

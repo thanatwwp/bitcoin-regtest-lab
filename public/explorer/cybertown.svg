@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" fill="none">
+  <defs>
+    <linearGradient id="tower" x2="0" y2="1"><stop stop-color="#173248"/><stop offset="1" stop-color="#0b1525"/></linearGradient>
+    <linearGradient id="bitcoin-tower" x2="0" y2="1"><stop stop-color="#443021"/><stop offset="1" stop-color="#171c29"/></linearGradient>
+    <linearGradient id="violet" x2="0" y2="1"><stop stop-color="#30264e"/><stop offset="1" stop-color="#101725"/></linearGradient>
+    <linearGradient id="fade" x2="1"><stop stop-color="#58e9ec" stop-opacity="0"/><stop offset=".45" stop-color="#58e9ec" stop-opacity=".7"/><stop offset="1" stop-color="#bd8bff" stop-opacity=".2"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#2b7389" stop-opacity=".24"/><stop offset="1" stop-color="#226d80" stop-opacity="0"/></radialGradient>
+    <pattern id="windows" width="13" height="18" patternUnits="userSpaceOnUse"><path d="M3 4h4" stroke="#6ce6f1" stroke-opacity=".6" stroke-width="2"/></pattern>
+    <pattern id="orange-windows" width="13" height="18" patternUnits="userSpaceOnUse"><path d="M3 4h4" stroke="#ffb65c" stroke-opacity=".7" stroke-width="2"/></pattern>
+    <pattern id="violet-windows" width="12" height="16" patternUnits="userSpaceOnUse"><path d="M3 4h4" stroke="#b59aef" stroke-opacity=".6" stroke-width="2"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="2.6"/></filter>
+  </defs>
+  <ellipse cx="470" cy="174" rx="280" ry="180" fill="url(#halo)"/>
+  <g stroke="#385367" stroke-opacity=".4">
+    <path d="M50 295h730M106 315h625M183 334h497M433 238 80 340m383-102L270 340m224-102-34 102m63-102 106 102m-77-102 243 102"/>
+    <path d="M278 80V56h82M599 47h98v44M671 195h63v38" stroke-dasharray="3 7"/>
+    <circle cx="465" cy="112" r="104" stroke-dasharray="3 13"/>
+  </g>
+  <g fill="#111d2e" stroke="#233e54">
+    <path d="M172 249V171l37-11 27 11v78M229 245V133l20-8 32 14v106M568 246V133l27-11 30 15v109M628 251V169l25-8 30 16v74M685 253V205l24-11 25 12v47"/>
+    <path d="M277 239V101l19-7 27 10v135M508 241V94l20-9 26 10v146"/>
+  </g>
+  <g>
+    <path d="m302 262 51-18V119l-52 14z" fill="url(#tower)" stroke="#36778a"/>
+    <path d="m353 244 28 12V133l-28-14z" fill="#111f31" stroke="#2d4b63"/>
+    <path d="m301 133 29-15 51 15-28 15z" fill="#1d3547" stroke="#36778a"/>
+    <path d="M310 155h33v85h-33z" fill="url(#windows)"/>
+    <path d="M354 149v77" stroke="#67e4e2" stroke-opacity=".6"/>
+    <path d="m310 146 34-11" stroke="#66efef" stroke-width="2"/>
+  </g>
+  <g>
+    <path d="m397 254 47-18V58l-47 18z" fill="url(#bitcoin-tower)" stroke="#bd7b35"/>
+    <path d="m444 236 37 16V76l-37-18z" fill="#101f32" stroke="#38576e"/>
+    <path d="m397 76 38-17 46 17-37 18z" fill="#553d29" stroke="#ffb65c"/>
+    <path d="m411 66 22-11 25 11-23 10z" fill="#3e3026" stroke="#ffb65c"/>
+    <path d="M434 55V20" stroke="#f7931a"/><circle cx="434" cy="19" r="3" fill="#ffd5a1"/>
+    <path d="M408 107h25v119h-25z" fill="url(#orange-windows)"/>
+    <path d="M452 107v121m11-112v117" stroke="#41617d" stroke-width="2"/>
+    <path d="m400 98 43-17 35 15m-78 81 43-17 35 15" stroke="#f7931a" stroke-opacity=".8"/>
+    <path d="M444 95v140" stroke="#ffb65c" stroke-opacity=".8"/>
+    <path d="M434 21V55m-36 44 46-18 35 15m-35-1v140" stroke="#ffb65c" stroke-width="3" opacity=".45" filter="url(#glow)"/>
+  </g>
+  <g>
+    <path d="m503 272 43-16V137l-43 17z" fill="url(#violet)" stroke="#786195"/>
+    <path d="m546 256 38 15V153l-38-16z" fill="#181a30" stroke="#49435f"/>
+    <path d="m503 154 38-16 43 15-38 18z" fill="#302741" stroke="#9272b5"/>
+    <path d="M513 183h24v58h-24z" fill="url(#violet-windows)"/>
+    <path d="m505 176 40-16 37 15m-36-4v83" stroke="#b695f2"/>
+    <path d="m505 176 40-16 37 15m-36-4v83" stroke="#b695f2" stroke-width="3" opacity=".3" filter="url(#glow)"/>
+  </g>
+  <g fill="#12293b" stroke="#3c6274">
+    <path d="m222 272 37-18 43 17-38 18zM222 272v14l42 18 38-18v-15m-38 18v15"/>
+    <path d="m588 275 33-16 38 16-33 17zM588 275v12l38 17 33-17v-12m-33 17v12"/>
+  </g>
+  <g stroke-width="1.5">
+    <path d="m140 280 76 0 48 24h126l39-20h155l41 20h124" stroke="url(#fade)"/>
+    <path d="m264 304 24 13h83l31-16m143 0 31 16h57l34-18" stroke="#8664bc" stroke-opacity=".6"/>
+    <path d="m354 257 32 16h48l22-11h59" stroke="#66d9e4" stroke-opacity=".5" stroke-dasharray="3 5"/>
+  </g>
+  <g fill="#6aece9"><circle cx="264" cy="304" r="3"/><circle cx="429" cy="284" r="3"/><circle cx="584" cy="284" r="3"/></g>
+  <g fill="#9b8fcb"><circle cx="288" cy="317" r="2"/><circle cx="633" cy="317" r="2"/></g>
+  <g fill="#77a7bf" opacity=".6"><circle cx="328" cy="66" r="1.5"/><circle cx="566" cy="54" r="1.5"/><circle cx="653" cy="112" r="1.5"/><circle cx="232" cy="88" r="1.5"/><circle cx="482" cy="29" r="1.5"/></g>
+</svg>
